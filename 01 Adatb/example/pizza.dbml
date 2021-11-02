@@ -1,0 +1,50 @@
+Table Customer as C {
+  id integer [pk]
+  name varchar
+  address varchar
+}
+
+Table Ingredient as I {
+  id integer [pk]
+  name varchar
+  stock_quantity "integer unsigned"
+}
+
+Table Pizza as P {
+  id integer [pk]
+  name varchar
+}
+
+Table Pizza_Ingredient as PI {
+  pizza_id integer [pk]
+  ingredient_id integer [pk]
+}
+
+Table Order as O {
+  id integer [pk]
+  customer_id integer
+  date date
+  order_taken_by integer
+  cook integer
+  delivery_person integer
+}
+
+Table Order_Pizza as OP {
+  order_id integer [pk]
+  pizza_id integer [pk]
+}
+
+Table Employee as E {
+  id integer [pk]
+  name varchar
+  started_date date
+}
+
+Ref: PI.pizza_id < P.id
+Ref: PI.ingredient_id < I.id
+
+Ref: OP.pizza_id < P.id
+Ref: OP.order_id < O.id
+
+Ref: O.delivery_person < E.id
+Ref: O.customer_id < C.id
