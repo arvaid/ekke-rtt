@@ -1,0 +1,36 @@
+@startuml Vending machine
+' !theme resume-light
+!define LIGHTBLUE
+!includeurl https://raw.githubusercontent.com/Drakemor/RedDress-PlantUML/master/style.puml
+
+[*] -> On : Power on
+On -> [*] : Power off
+
+state On {
+    [*] -> Idle : System start
+    Idle : entry / Display welcome message
+
+    Idle -l-> WaitingForCoins : Insert coin
+    Idle ---> WaitingForCard : Make selection
+    
+    state CheckCoins <<choice>>
+    state CheckChange <<choice>>
+
+    WaitingForCoins --> WaitingForCoins : Insert coin
+    WaitingForCoins --> CheckCoins : Make selection\n / Display price
+    WaitingForCoins : entry / Display total of coins
+    CheckCoins --> WaitingForCoins : [coins < price]\n / Display error
+    CheckCoins --> CheckChange : [coins >= price]\n / Dispense product
+    CheckChange --> Idle : [coins = price]
+    CheckChange --> Idle : [coins > price]\n/ Give change
+    WaitingForCoins --> Idle : Cancel transaction\n/ Return coins
+
+    state ProcessingCard <<choice>>
+
+    WaitingForCard -> ProcessingCard : Initiate payment
+    WaitingForCard :  entry / Display price
+    ProcessingCard -> WaitingForCard : [card declined]\n / Display error
+    ProcessingCard -> Idle : [card accepted]\n / Dispense product
+    WaitingForCard -> Idle : Cancel transaction
+}
+@enduml
