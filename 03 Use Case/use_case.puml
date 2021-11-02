@@ -1,0 +1,17 @@
+@startuml Use case
+left to right direction
+actor "Customer" as c
+
+rectangle "Online shopping" {
+    usecase "Buy products" as buy
+    usecase "Browse products" as browse
+    usecase "Pay for products" as pay
+}
+
+c --> browse
+c --> buy
+c --> pay
+buy -l.> browse : include
+pay -l.> buy : include
+
+@enduml
