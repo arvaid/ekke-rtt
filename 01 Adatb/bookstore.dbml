@@ -1,0 +1,54 @@
+Table Authors as A {
+    id integer [pk]
+    firstname varchar [not null]
+    lastname varchar [not null]
+}
+
+Table Books as B {
+    isbn char(13) [pk]
+    title varchar [not null]
+    author integer [not null]
+}
+
+Table BookEditions as BE {
+    id integer [pk]
+    book_isbn char(13)
+    publisher integer [not null]
+    publication_date integer [not null]
+}
+
+Table Publishers as P {
+    id integer [pk]
+    name varchar [not null]
+}
+
+Table Customers as C {
+    id integer [pk]
+    firstname varchar [not null]
+    lastname varchar [not null]
+    email varchar [not null]
+    phone varchar
+    address varchar [not null]
+}
+
+Table Orders as O {
+    id integer [pk]
+    date datetime [not null]
+    customer integer [not null]
+}
+
+Table Orders_Books as OB {
+    order_id integer [pk]
+    book_isbn integer [pk]
+}
+
+
+Ref: B.author > A.id
+
+Ref: BE.publisher > P.id
+Ref: BE.book_isbn > B.isbn
+
+Ref: O.customer > C.id
+
+Ref: OB.order_id > O.id
+Ref: OB.book_isbn > B.isbn
