@@ -1,0 +1,27 @@
+@startuml Jegy beírás
+
+left to right direction
+actor "Tanár" as t
+actor "Hallgató" as h
+
+rectangle "Jegy beírás" {
+    usecase "Kurzusok listázása" as list_course
+    usecase "Hallgatók listázása" as list_student
+    usecase "Jegy beírása" as input_grade
+    usecase "Várakozás" as wait
+}
+
+t --- list_course
+t --- list_student
+t --- input_grade
+t -r-- wait
+h -u-- wait
+
+input_grade -l.> list_student : include
+input_grade -r.> list_course : include
+
+list_course -.> wait : include
+list_student -.> wait : include
+input_grade -.> wait : include
+
+@enduml
